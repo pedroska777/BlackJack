@@ -27,17 +27,23 @@ export default class Game {
     // Burn a card
     this._deck.draw();
 
-    const players = [...this._players, this._dealer];
-
     // Draw 2 cards for each player
     for (let i = 0; i < 2; i++) {
-      for (const player of players) {
+      for (const player of this._players) {
         const card = this._deck.draw();
         if (card) {
           player.addCard(card);
         }
       }
+      const card = this._deck.draw();
+      if (card) {
+        this._dealer.addCard(card);
+      }
     }
+    // show one of the cards of Dealer initially
+    this._dealer.printDealerHand();
+
+    const players = [...this._players, this._dealer];
 
     for (const player of players) {
       this.playTurn(player);
@@ -89,7 +95,7 @@ export default class Game {
       // check if player beat the dealer
       if (val > 21) {
         console.log(`${player.name()} busted!`);
-      } else if (val > dealer) {
+      } else if (val > dealer || dealer > 21) {
         console.log(`${player.name()} beat ${this._dealer.name()}!`);
       } else if (val === dealer) {
         console.log(

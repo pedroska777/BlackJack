@@ -1,4 +1,4 @@
-import { ComputerPlayer } from '../computer.player';
+import { ComputerPlayer } from "../computer.player";
 
 export class DealerPlayer extends ComputerPlayer {
   public constructor() {
@@ -6,6 +6,13 @@ export class DealerPlayer extends ComputerPlayer {
   }
 
   public name(): string {
-    return 'Dealer';
+    return "Dealer";
+  }
+  public printDealerHand(): void {
+    console.log(
+      "Dealer's Hand :",
+      this._cards[0].toString(),
+      " -----Hidden----"
+    );
   }
 }
