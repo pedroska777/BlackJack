@@ -27,9 +27,8 @@ Future features:
     
     • User input is coming from terminal which will be better to improve (write a user interface that can be implemented from web or console)
     
-    • Dealer hand is not printed in the beginning (one should be shown, and one should be hidden)
 
-Class Card:
+Class Card: (Value (number and face) and Suit can be classes too)
 
     • Value: shows number
     • Suit: either Heart, Diamond, Clubs, Spades
