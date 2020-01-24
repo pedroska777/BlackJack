@@ -1,15 +1,18 @@
-import { Deck } from './model/deck/deck';
-import { ComputerPlayer } from './model/player/computer/computer.player';
-import { DealerPlayer } from './model/player/computer/dealer/dealer.player';
-import { HumanPlayer } from './model/player/human/human.player';
-import { PlayerBase } from './model/player/player.base';
+import { Deck } from "./model/deck/deck";
+import { ComputerPlayer } from "./model/player/computer/computer.player";
+import { DealerPlayer } from "./model/player/computer/dealer/dealer.player";
+import { HumanPlayer } from "./model/player/human/human.player";
+import { PlayerBase } from "./model/player/player.base";
 
-export class Game {
+export default class Game {
   private _deck: Deck;
   private readonly _players: PlayerBase[];
   private readonly _dealer: DealerPlayer;
 
   public constructor(numberOfCPUs: number = 5) {
+    /* 
+    Add pllayers in the order of humanPlayer,computerPlayers,dealerPlayer
+    */
     this._deck = new Deck();
 
     this._players = [new HumanPlayer()];
@@ -23,6 +26,7 @@ export class Game {
   public start(): void {
     // Burn a card
     this._deck.draw();
+
     const players = [...this._players, this._dealer];
 
     // Draw 2 cards for each player
@@ -51,7 +55,6 @@ export class Game {
    */
   private playTurn(player: PlayerBase): number {
     const value = player.value();
-    console.log(player.printHand());
 
     if (value > 21) {
       console.log(`Player ${player.name()} lost with value of ${value}.`);
@@ -60,7 +63,10 @@ export class Game {
       console.log(`Player ${player.name()} hit blackjack!`);
       return 1;
     } else {
-      console.log(`Player ${player.name()}'s turn. Value of hand: ${value}.`);
+      console.log(
+        `Player ${player.name()}'s value of hand: ${value} which contains:`,
+        player.printHand()
+      );
     }
 
     if (player.hit()) {
@@ -83,13 +89,13 @@ export class Game {
       // check if player beat the dealer
       if (val > 21) {
         console.log(`${player.name()} busted!`);
-        continue;
-      }
-      if (val > dealer) {
+      } else if (val > dealer) {
         console.log(`${player.name()} beat ${this._dealer.name()}!`);
-        continue;
-      }
-      console.log(`${this._dealer.name()} beat ${player.name()}!`);
+      } else if (val === dealer) {
+        console.log(
+          `Draw game between ${player.name()} and ${this._dealer.name()}!`
+        );
+      } else console.log(`${this._dealer.name()} beat ${player.name()}!`);
     }
   }
 }
